@@ -15,6 +15,7 @@ keyword:
  - tcp
  - tls
  - bgp
+ - tcp-ao
 
 venue:
   group: "IDR"
@@ -22,7 +23,6 @@ venue:
   mail: "idr@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/idr/"
   github: "obonaventure/draft-bgp-tls"
-
 
 author:
  -
@@ -41,9 +41,11 @@ normative:
   RFC4271:
   RFC4272:
   RFC7301:
+  RFC5925:
 
 informative:
   I-D.draft-retana-idr-bgp-quic:
+  draft-bonaventure-tcp-ao-tls:
   RFC5082:
   RFC5246:
   RFC8446:
@@ -75,7 +77,7 @@ features as QUIC. However, it is notoriously difficult to configure the
 keys used to protect BGP sessions.
 
 The widespread deployment of TLS combined with the possibility of
-deriving TCP-AO keys from the TLS handshake {{draft-bonaventure-tcp-tls}}
+deriving TCP-AO keys from the TLS handshake {{draft-bonaventure-tcp-ao-tls}}
 creates an interest in using TLS to secure BGP sessions. This document
 describes how BGP can operate over TCP/TLS.
 
