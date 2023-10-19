@@ -109,14 +109,12 @@ TLS 1.2 {{RFC5246}} and TLS 1.3 {{RFC8446}}.
 
 Once the TLS handshake is established and finished, the BGP session is
 initiated as defined in {{RFC4271}} and the protocol operates in the
-same way as a normal BGP over TCP session. The difference is that the
+same way as a classic BGP over TCP session. The difference is that the
 BGP session is now encrypted using the TLS layer.
 
-TODO: How can TLS failures be handled? For non-critical TLS errors,
-a new BGP notification option could be requested to indicate to
-the other router that the TLS session has failed. For critical errors,
-the TCP session will be reset without any BGP notification...
-If TCP-AO is enabled, this question does not arise.
+It is suggested that the two BGP peers establishing a BGP over TLS/TCP
+perform a mutual TLS (mTLS) authentication to prove that both
+routers are legitimate in the connection.
 
 # Security Considerations
 
@@ -124,16 +122,19 @@ This document improves the security of BGP sessions since the information exchan
 session is now protected by using TLS. When combined with TCP-AO, it also counters
 TCP injection attacks listed in {{RFC5082}}. 
 
-If the BGP router supports TCP-AO, we recommend an opportunistic
+If TLS encounter a payload injection attack, it will generate an alert that immediately
+closes the TLS session. The BGP router SHOULD then attempt to reestablish the session.
+However, this will cause traffic to be interrupted during the connection re-establishement.
+To prevent this issue, BGP sessions SHOULD enables a graceful restart {{RFC4724}} mechanism
+when establishing a BGP over TCP/TLS session.
+
+If both BGP peer supports TCP-AO, the TLS stack is protected against payload injection and
+this attack can be avoided.
+
+Furthermore, if the BGP router supports TCP-AO, we recommend an opportunistic
 TCP-AO approach as suggested in {{draft-bonaventure-tcp-ao-tls}}. The
 router will attempt to connect using TCP-AO with a default key. When the TLS
 handshake is finished, the routers will derive a new TCP-AO key using the TLS key.
-
-TODO: how do you distinguish a BGP router that supports TCP-AO from one that does not?
-Try using TCP first. Establish a BGP session over TLS. When the BGP session is
-initiated, both routers must indicate that they support TCP-AO by adding a new BGP
-capability to the BGP OPEN message. If both routers agree to use TCP-AO, close the
-BGP/TLS/TCP session, then restart the session with TCP-AO enabled.  
 
 
 # IANA Considerations
