@@ -119,8 +119,7 @@ routers are legitimate in the connection.
 # Security Considerations
 
 This document improves the security of BGP sessions since the information exchanged over the
-session is now protected by using TLS. When combined with TCP-AO, it also counters
-TCP injection attacks listed in {{RFC5082}}. 
+session is now protected by using TLS.
 
 If TLS encounter a payload injection attack, it will generate an alert that immediately
 closes the TLS session. The BGP router SHOULD then attempt to reestablish the session.
@@ -129,7 +128,8 @@ To prevent this issue, BGP sessions SHOULD enables a graceful restart {{RFC4724}
 when establishing a BGP over TCP/TLS session.
 
 If both BGP peer supports TCP-AO, the TLS stack is protected against payload injection and
-this attack can be avoided.
+this attack can be avoided. When combined with TCP-AO, it also counters TCP injection
+attacks listed in {{RFC5082}}. 
 
 Furthermore, if the BGP router supports TCP-AO, we recommend an opportunistic
 TCP-AO approach as suggested in {{draft-bonaventure-tcp-ao-tls}}. The
