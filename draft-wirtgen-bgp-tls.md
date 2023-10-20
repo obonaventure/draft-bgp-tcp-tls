@@ -43,9 +43,23 @@ normative:
   RFC7301:
   RFC5925:
 
+  draft-bonaventure-tcp-ao-tls:
+    title: Opportunistic TCP-AO with TLS
+    author:
+      -
+        ins: O. Bonaventure
+        name: Olivier Bonaventure
+      -
+        ins: M. Piraux
+        name: Maxime Piraux
+      -
+        ins: T. Wirtgen
+        name: Thomas Wirtgen
+    date: 20203
+    seriesinfo: Internet draft, draft-bonventure-tcp-ao-tls, work in progress
+
 informative:
   I-D.draft-retana-idr-bgp-quic:
-  I-D.draft-bonaventure-tcp-ao-tls:
   RFC5082:
   RFC8446:
   RFC9000:
@@ -76,7 +90,7 @@ features as QUIC. However, it is notoriously difficult to configure the
 keys used to protect BGP sessions.
 
 The widespread deployment of TLS {{RFC8446}} combined with the possibility of
-deriving TCP-AO keys from the TLS handshake {{I-D.draft-bonaventure-tcp-ao-tls}}
+deriving TCP-AO keys from the TLS handshake {{draft-bonaventure-tcp-ao-tls}}
 creates an interest in using TLS to secure BGP sessions. This document
 describes how BGP can operate over TCP/TLS.
 
@@ -127,7 +141,7 @@ this attack can be avoided. When enabled, TCP-AO counters TCP injection
 attacks listed in {{RFC5082}}. 
 
 Furthermore, if the BGP router supports TCP-AO, we recommend an opportunistic
-TCP-AO approach as suggested in {{I-D.draft-bonaventure-tcp-ao-tls}}. The
+TCP-AO approach as suggested in {{draft-bonaventure-tcp-ao-tls}}. The
 router will attempt to connect using TCP-AO with a default key. When the TLS
 handshake is finished, the routers will derive a new TCP-AO key using the TLS key.
 
@@ -154,7 +168,7 @@ It is suggested to use the same port as the one selected for BGP over QUIC
 # Acknowledgments
 {:numbered="false"}
 
-The authors thank xx for their comments on the first version of this draft and
+The authors thank 
 Dimitri Safonov for the TCP-AO implementation in Linux. 
 
 # Change log
