@@ -27,11 +27,11 @@ venue:
 author:
  -
     name: Thomas Wirtgen
-    organization: UCLouvain
+    organization: UCLouvain & WELRI
     email: thomas.wirtgen@uclouvain.be
  -
     name: Olivier Bonaventure 
-    organization: UCLouvain 
+    organization: UCLouvain & WELRI
     email: olivier.bonaventure@uclouvain.be
 
 
@@ -45,9 +45,8 @@ normative:
 
 informative:
   I-D.draft-retana-idr-bgp-quic:
-  draft-bonaventure-tcp-ao-tls:
+  I-D.draft-bonaventure-tcp-ao-tls:
   RFC5082:
-  RFC5246:
   RFC8446:
   RFC9000:
 
@@ -76,11 +75,10 @@ authenticates the packets exchanged over a BGP session provides similar
 features as QUIC. However, it is notoriously difficult to configure the
 keys used to protect BGP sessions.
 
-The widespread deployment of TLS combined with the possibility of
-deriving TCP-AO keys from the TLS handshake {{draft-bonaventure-tcp-ao-tls}}
+The widespread deployment of TLS {{RFC8446}} combined with the possibility of
+deriving TCP-AO keys from the TLS handshake {{I-D.draft-bonaventure-tcp-ao-tls}}
 creates an interest in using TLS to secure BGP sessions. This document
 describes how BGP can operate over TCP/TLS.
-
 
 
 # Conventions and Definitions
@@ -104,35 +102,32 @@ The TCP connection SHOULD be established on port TBD1.
 During the establishment of the TLS session, the router that initiates the
 connection MUST use the "botls" token in the Application Layer Protocol
 Negotiation (ALPN) extension {{RFC7301}}. The support for other ALPN MUST
-NOT be proposed during the TLS handshake. This document supports both
-TLS 1.2 {{RFC5246}} and TLS 1.3 {{RFC8446}}.
+NOT be proposed during the TLS handshake. 
 
 Once the TLS handshake is established and finished, the BGP session is
 initiated as defined in {{RFC4271}} and the protocol operates in the
 same way as a classic BGP over TCP session. The difference is that the
-BGP session is now encrypted using the TLS layer.
+BGP session is now encrypted and authenticated using the TLS layer.
+As in {{I-D.draft-retana-idr-bgp-quic}}, the TLS authentication parameters used for this connection
+are out of the scope of this draft.
 
-It is suggested that the two BGP peers establishing a BGP over TLS/TCP
-perform a mutual TLS (mTLS) authentication to prove that both
-routers are legitimate in the connection.
 
 # Security Considerations
 
 This document improves the security of BGP sessions since the information exchanged over the
 session is now protected by using TLS.
 
-If TLS encounter a payload injection attack, it will generate an alert that immediately
+If TLS encounters a payload injection attack, it will generate an alert that immediately
 closes the TLS session. The BGP router SHOULD then attempt to reestablish the session.
 However, this will cause traffic to be interrupted during the connection re-establishement.
-To prevent this issue, BGP sessions SHOULD enables a graceful restart {{RFC4724}} mechanism
-when establishing a BGP over TCP/TLS session.
+
 
 If both BGP peer supports TCP-AO, the TLS stack is protected against payload injection and
-this attack can be avoided. When combined with TCP-AO, it also counters TCP injection
+this attack can be avoided. When enabled, TCP-AO counters TCP injection
 attacks listed in {{RFC5082}}. 
 
 Furthermore, if the BGP router supports TCP-AO, we recommend an opportunistic
-TCP-AO approach as suggested in {{draft-bonaventure-tcp-ao-tls}}. The
+TCP-AO approach as suggested in {{I-D.draft-bonaventure-tcp-ao-tls}}. The
 router will attempt to connect using TCP-AO with a default key. When the TLS
 handshake is finished, the routers will derive a new TCP-AO key using the TLS key.
 
