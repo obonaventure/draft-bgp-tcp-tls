@@ -1,7 +1,7 @@
 ---
-title: "BGP over TLS/TCP" 
+title: "BGP over TLS/TCP"
 abbrev: bgp-tls
-docname: draft-wirtgen-bgp-tls
+docname: draft-wirtgen-bgp-tls-latest
 category: exp
 
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
@@ -30,7 +30,7 @@ author:
     organization: UCLouvain & WELRI
     email: thomas.wirtgen@uclouvain.be
  -
-    name: Olivier Bonaventure 
+    name: Olivier Bonaventure
     organization: UCLouvain & WELRI
     email: olivier.bonaventure@uclouvain.be
 
@@ -43,20 +43,20 @@ normative:
   RFC7301:
   RFC5925:
 
-  draft-piraux-tcp-ao-tls:
-    title: Opportunistic TCP-AO with TLS
-    author:
-      -
-        ins: M. Piraux
-        name: Maxime Piraux
-      -
-        ins: O. Bonaventure
-        name: Olivier Bonaventure
-      -
-        ins: T. Wirtgen
-        name: Thomas Wirtgen
-    date: 20203
-    seriesinfo: Internet draft, draft-bonventure-tcp-ao-tls, work in progress
+  I-D.draft-piraux-tcp-ao-tls:
+  #  title: Opportunistic TCP-AO with TLS
+  #  author:
+  #    -
+  #      ins: M. Piraux
+  #      name: Maxime Piraux
+  #    -
+  #      ins: O. Bonaventure
+  #      name: Olivier Bonaventure
+  #    -
+  #      ins: T. Wirtgen
+  #      name: Thomas Wirtgen
+  #  date: 2023
+  #  seriesinfo: Internet draft, draft-bonventure-tcp-ao-tls, work in progress
 
 informative:
   I-D.draft-retana-idr-bgp-quic:
@@ -64,11 +64,11 @@ informative:
   RFC8446:
   RFC9000:
 
-  
+
 
 --- abstract
 
-This document specifies the utilization of TCP/TLS to support BGP. 
+This document specifies the utilization of TCP/TLS to support BGP.
 
 --- middle
 
@@ -90,7 +90,7 @@ features as QUIC. However, it is notoriously difficult to configure the
 keys used to protect BGP sessions.
 
 The widespread deployment of TLS {{RFC8446}} combined with the possibility of
-deriving TCP-AO keys from the TLS handshake {{draft-piraux-tcp-ao-tls}}
+deriving TCP-AO keys from the TLS handshake {{I-D.draft-piraux-tcp-ao-tls}}
 creates an interest in using TLS to secure BGP sessions. This document
 describes how BGP can operate over TCP/TLS.
 
@@ -108,7 +108,7 @@ Fields are placed starting from the high-order bits of each byte.
 
 A BGP over TLS/TCP session is established in two phases:
 
- - establish a transport layer connection using TCP 
+ - establish a transport layer connection using TCP
  - establish a TLS session over the TCP connection
 
 The TCP connection SHOULD be established on port TBD1.
@@ -116,7 +116,7 @@ The TCP connection SHOULD be established on port TBD1.
 During the establishment of the TLS session, the router that initiates the
 connection MUST use the "botls" token in the Application Layer Protocol
 Negotiation (ALPN) extension {{RFC7301}}. The support for other ALPN MUST
-NOT be proposed during the TLS handshake. 
+NOT be proposed during the TLS handshake.
 
 Once the TLS handshake is established and finished, the BGP session is
 initiated as defined in {{RFC4271}} and the protocol operates in the
@@ -138,10 +138,10 @@ However, this will cause traffic to be interrupted during the connection re-esta
 
 If both BGP peer supports TCP-AO, the TLS stack is protected against payload injection and
 this attack can be avoided. When enabled, TCP-AO counters TCP injection
-attacks listed in {{RFC5082}}. 
+attacks listed in {{RFC5082}}.
 
 Furthermore, if the BGP router supports TCP-AO, we recommend an opportunistic
-TCP-AO approach as suggested in {{draft-piraux-tcp-ao-tls}}. The
+TCP-AO approach as suggested in {{I-D.draft-piraux-tcp-ao-tls}}. The
 router will attempt to connect using TCP-AO with a default key. When the TLS
 handshake is finished, the routers will derive a new TCP-AO key using the TLS key.
 
@@ -168,8 +168,8 @@ It is suggested to use the same port as the one selected for BGP over QUIC
 # Acknowledgments
 {:numbered="false"}
 
-The authors thank 
-Dimitri Safonov for the TCP-AO implementation in Linux. 
+The authors thank
+Dimitri Safonov for the TCP-AO implementation in Linux.
 
 # Change log
 {:numbered="false"}
