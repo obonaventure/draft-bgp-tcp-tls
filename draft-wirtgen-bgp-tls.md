@@ -145,6 +145,9 @@ TCP-AO approach as suggested in {{I-D.draft-piraux-tcp-ao-tls}}. The
 router will attempt to connect using TCP-AO with a default key. When the TLS
 handshake is finished, the routers will derive a new TCP-AO key using the TLS key.
 
+TCP-MD5 {{RFC2385}} MAY be used to protect the TLS session if TCP-AO is not available on the
+BGP router.
+
 
 # IANA Considerations
 
